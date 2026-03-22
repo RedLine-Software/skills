@@ -8,6 +8,9 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+# Load environment variables from .env file if it exists
+# load_dotenv()
+
 # Setup the GenAI client
 api_key = os.environ.get("GOOGLE_API_KEY")
 
