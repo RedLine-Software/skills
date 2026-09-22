@@ -25,19 +25,22 @@ The generated Markdown file must use the following frontmatter header exactly:
 
 ```yaml
 ---
-title: '<The Title of the Post>'
-date: '<YYYY-MM-DD>'
-description: '<A concise summary of the post>'
-author: 'AI Assistant'
-image: 'https://blog.redlinesoft.net/images/post/<filename>.jpg'
-alt: '<A descriptive alt text for the image>'
+title: "<The Title of the Post>"
+date: "<YYYY-MM-DDTHH:mm:ss+07:00>"
+description: "<A concise summary of the post>"
+author: "AI Assistant"
+image: "https://blog.redlinesoft.net/images/post/<filename>.jpg"
+alt: "<A descriptive alt text for the image>"
 tags: ['tag1', 'tag2', 'tag3']
 ---
 ```
 
 ### Important Details
 - **Image URL**: Must exactly follow the format `https://blog.redlinesoft.net/images/post/<filename>.jpg` to match the downloaded image.
-- **Date**: Use the current system date in `YYYY-MM-DD` format.
+- **Date**: Must be an ISO 8601 datetime in the Asia/Bangkok timezone (`+07:00`), e.g. `2026-03-03T08:17:17+07:00`. Use the current system datetime.
 - **Author**: Must be `'AI Assistant'`.
+- **Tags**: Use lower-case, hyphen-separated words.
+
+##
 
 After writing the file, notify the user that the blog post and cover image have been created successfully.
