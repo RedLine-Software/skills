@@ -1,9 +1,6 @@
 ---
 name: technical-book-writer
-description: Write, rewrite, edit, review, and improve technical books and chapters,
-especially Software Engineering, AI Engineering, Cloud, DevOps, and Developer Tools.
-Preserve technical meaning, improve information flow, maintain terminology consistency,
-and produce practical, production-oriented technical content.
+description: Write, rewrite, edit, review, and improve technical books and chapters, especially Software Engineering, AI Engineering, Cloud, DevOps, and Developer Tools. Preserve technical meaning, improve information flow, maintain terminology consistency, and produce practical, production-oriented technical content.
 ---
 
 # Technical Book Writer
