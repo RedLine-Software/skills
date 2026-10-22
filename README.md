@@ -7,6 +7,7 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | Skill | Description | Language |
 |---|---|---|
 | [arxiv-search](arxiv-search/) | Search academic papers on arXiv via Atom XML API | Python |
+| [blockframe-video](blockframe-video/) | Produce vertical BlockFrame knowledge shorts with HyperFrames (brief → storyboard → render) | Node.js |
 | [blog-search](blog-search/) | Search and retrieve blog posts from blog.redlinesoft.net | Python |
 | [book-mockup](book-mockup/) | Generate 3D book mockup images from a flat cover via Google Gemini | Python |
 | [book-sales-api](book-sales-api/) | Query internal Book and Sales REST API | curl |
@@ -16,6 +17,7 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [create-slide](create-slide/) | Generate reveal.js presentations with Chart.js | Node.js |
 | [find-skills](find-skills/) | Discover and install skills from the open skills ecosystem | Workflow |
 | [little-girl-today](little-girl-today/) | Fetch daily staff schedules from mosl9.com | Workflow |
+| [mermaid-figures](mermaid-figures/) | Render Mermaid diagram sources to PNG figures embedded in book chapters | Node.js |
 | [mintlify](mintlify/) | Best practices for building Mintlify documentation sites | Markdown |
 | [quick-chart](quick-chart/) | Generate charts and QR codes via QuickChart.io API | Python |
 | [roll-dice](roll-dice/) | Roll dice of configurable size and quantity | Python |
@@ -29,6 +31,9 @@ skills/
 ├── LICENSE                     # MIT License
 ├── arxiv-search/
 │   └── scripts/search_arxiv.py
+├── blockframe-video/
+│   ├── references/             # Design system, pipeline, media & scene contract docs
+│   └── scripts/                # fetch-fonts.mjs, loop-bgm.mjs
 ├── blog-search/
 │   └── scripts/fetch_llm_index.py
 ├── book-mockup/
@@ -46,6 +51,9 @@ skills/
 │   └── assets/sample_presentation.json
 ├── find-skills/
 ├── little-girl-today/
+├── mermaid-figures/
+│   ├── references/mermaid-config.json
+│   └── scripts/                # extract, render, analyze, verify figures
 ├── mintlify/
 ├── quick-chart/
 │   ├── scripts/chart_gen.py
@@ -61,7 +69,7 @@ skills/
 ## Skill Categories
 
 - **Search & Retrieval** — arxiv-search, blog-search, book-sales-api, find-skills
-- **Content Creation** — create-blog-post, create-slide, book-mockup, technical-book-writer
+- **Content Creation** — create-blog-post, create-slide, book-mockup, technical-book-writer, mermaid-figures, blockframe-video
 - **Reference Documentation** — claude-code-docs, mintlify, technical-book-writer
 - **Utilities** — calculator, roll-dice, quick-chart
 - **Scaffolding & Templates** — uikits
@@ -100,9 +108,12 @@ For local development, copy a skill directory into your agent's skills folder an
 ## Requirements
 
 - **Python** — Used by most scripts. Standard library only for most skills.
-- **Node.js** — Required by create-slide and uikits.
+- **Node.js** — Required by create-slide, uikits, blockframe-video, and mermaid-figures.
+- **HyperFrames CLI** — blockframe-video renders through `npx hyperframes`.
+- **mermaid-cli** — mermaid-figures requires a global install of `@mermaid-js/mermaid-cli`.
 - Some skills require API keys:
   - `book-mockup` requires `GOOGLE_API_KEY`
+  - `blockframe-video` requires `GEMINI_API_KEY` for Thai narration (Gemini TTS; Kokoro has no Thai)
   - `book-sales-api` requires network access to `192.168.1.36:8000`
 
 ## License
