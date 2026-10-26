@@ -55,8 +55,6 @@ embedded in the actual chapters, instead of using inline ` ```mermaid ` blocks.
    ```
 
    ![<descriptive alt text>](images/fig1-5.png)
-
-   <prose paragraph explaining the mechanism, steps, and relationships between the components in the image>
    ```
 
 2. Extract the block into a `.mmd` file (the image reference you already wrote is preserved):
