@@ -2,7 +2,7 @@
 name: arxiv-search
 description: Search academic research papers on arXiv. Use when the user asks for scientific papers, research on specific topics, or abstracts from arXiv.
 version: 1.0.0
-author: Your Name
+author: Anuchit Chalothorn
 category: research
 ---
 

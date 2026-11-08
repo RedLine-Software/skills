@@ -105,10 +105,10 @@ Use the [Skills CLI](https://skills.sh/) to install skills interactively and pic
 
 ```bash
 # Install all skills from this repository
-npx skills install github.com/anoochit/skills
+npx skills add anoochit/skills
 
 # Or install a single skill
-npx skills install github.com/anoochit/skills/calculator
+npx skills add anoochit/skills/calculator
 ```
 
 **Option 2 — Manual install:**
@@ -129,6 +129,8 @@ Any agent that reads `SKILL.md` files (Claude Code, Cursor, OpenCode, etc.) will
 ### Verify an installation
 
 Restart your agent, then ask it to use a skill — e.g. *"roll 2d6"*, *"search arxiv for transformer papers"*, or *"generate a slide deck"* — and it should invoke the skill's `SKILL.md` instructions automatically.
+
+Skills installed via the Skills CLI are automatically listed on [skills.sh](https://skills.sh/anoochit/skills) through install telemetry.
 
 ## Requirements
 
