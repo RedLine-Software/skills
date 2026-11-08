@@ -90,20 +90,45 @@ The `SKILL.md` file is the single source of truth — it serves as both the skil
 
 ## Usage
 
-Install the [Skills CLI](https://skills.sh/) and add skills to your agent:
+Clone this repository to your local environment. Then copy the desired skill directories into the `skills` folder of your AI agent project and reference them in your agent's configuration.
+
+### Installation example for a Python agent
 
 ```bash
-# Install skills CLI
-npx skills
+# Clone the repo
+git clone https://github.com/anoochit/skills.git
+cd skills
 
-# Search for available skills
-npx skills find [query]
+# Copy a skill (e.g., quick-chart) into your agent's skills folder
+cp -r quick-chart /path/to/your/agent/skills/
 
-# Add a skill
-npx skills add <package>
+# In your agent's configuration (e.g., agent.py), add the skill:
+AGENT_SKILLS = [
+    "quick-chart",
+    "arxiv-search",
+    # other skills...
+]
 ```
 
-For local development, copy a skill directory into your agent's skills folder and reference it in your agent's configuration.
+### Installation example for a Node.js agent
+
+```bash
+# Clone the repo
+git clone https://github.com/anoochit/skills.git
+cd skills
+
+# Copy a skill (e.g., create-slide) into your agent's skills folder
+cp -r create-slide /path/to/your/agent/skills/
+
+# In your agent's configuration (e.g., agent.js), require the skill:
+const skills = [
+  require('./skills/create-slide'),
+  require('./skills/blockframe-video'),
+  # other skills...
+];
+```
+
+You can still use the Skills CLI (`npx skills`) to search for and install skills globally, but the recommended workflow for local development is to clone this repo and add the skill directories directly to your agent's `skills` folder.
 
 ## Requirements
 
