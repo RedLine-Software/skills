@@ -90,45 +90,45 @@ The `SKILL.md` file is the single source of truth — it serves as both the skil
 
 ## Usage
 
-Clone this repository to your local environment. Then copy the desired skill directories into the `skills` folder of your AI agent project and reference them in your agent's configuration.
-
-### Installation example for a Python agent
+### Clone the repository
 
 ```bash
-# Clone the repo
 git clone https://github.com/anoochit/skills.git
 cd skills
-
-# Copy a skill (e.g., quick-chart) into your agent's skills folder
-cp -r quick-chart /path/to/your/agent/skills/
-
-# In your agent's configuration (e.g., agent.py), add the skill:
-AGENT_SKILLS = [
-    "quick-chart",
-    "arxiv-search",
-    # other skills...
-]
 ```
 
-### Installation example for a Node.js agent
+### Install skills for your agents
+
+**Option 1 — Skills CLI (recommended):**
+
+Use the [Skills CLI](https://skills.sh/) to install skills interactively and pick your target agent (Claude Code, Cursor, Codex, etc.):
 
 ```bash
-# Clone the repo
-git clone https://github.com/anoochit/skills.git
-cd skills
+# Install all skills from this repository
+npx skills install github.com/anoochit/skills
 
-# Copy a skill (e.g., create-slide) into your agent's skills folder
-cp -r create-slide /path/to/your/agent/skills/
-
-# In your agent's configuration (e.g., agent.js), require the skill:
-const skills = [
-  require('./skills/create-slide'),
-  require('./skills/blockframe-video'),
-  # other skills...
-];
+# Or install a single skill
+npx skills install github.com/anoochit/skills/calculator
 ```
 
-You can still use the Skills CLI (`npx skills`) to search for and install skills globally, but the recommended workflow for local development is to clone this repo and add the skill directories directly to your agent's `skills` folder.
+**Option 2 — Manual install:**
+
+Each skill is a self-contained folder, so you can simply copy the skills you want into your agent's skills directory:
+
+```bash
+# Claude Code
+mkdir -p ~/.claude/skills
+cp -r calculator ~/.claude/skills/
+
+# Project-level (shared across agents)
+cp -r calculator .claude/skills/
+```
+
+Any agent that reads `SKILL.md` files (Claude Code, Cursor, OpenCode, etc.) will pick up skills placed in its skills directory. For project-level installs, skills are typically placed under `.claude/skills/` or `.codex/skills/` depending on the agent.
+
+### Verify an installation
+
+Restart your agent, then ask it to use a skill — e.g. *"roll 2d6"*, *"search arxiv for transformer papers"*, or *"generate a slide deck"* — and it should invoke the skill's `SKILL.md` instructions automatically.
 
 ## Requirements
 
