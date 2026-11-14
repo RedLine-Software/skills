@@ -7,9 +7,11 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | Skill | Description | Language |
 |---|---|---|
 | [arxiv-search](arxiv-search/) | Search academic papers on arXiv via Atom XML API | Python |
+| [bisac-categorizer](bisac-categorizer/) | Recommend BISAC subject codes so a book is correctly shelved on Google Play Books | Markdown |
 | [blockframe-video](blockframe-video/) | Produce vertical BlockFrame knowledge shorts with HyperFrames (brief → storyboard → render) | Node.js |
 | [blog-search](blog-search/) | Search and retrieve blog posts from blog.redlinesoft.net | Python |
 | [book-mockup](book-mockup/) | Generate 3D book mockup images from a flat cover via Google Gemini | Python |
+| [book-promo-writer](book-promo-writer/) | Write Google Play Books descriptions and social-network launch posts | Workflow |
 | [book-sales-api](book-sales-api/) | Query internal Book and Sales REST API | curl |
 | [calculator](calculator/) | Math expression evaluator | Python |
 | [claude-code-docs](claude-code-docs/) | Comprehensive Claude Code documentation and reference | Markdown |
@@ -19,7 +21,9 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [little-girl-today](little-girl-today/) | Fetch daily staff schedules from mosl9.com | Workflow |
 | [mermaid-figures](mermaid-figures/) | Render Mermaid diagram sources to PNG figures embedded in book chapters | Node.js |
 | [mintlify](mintlify/) | Best practices for building Mintlify documentation sites | Markdown |
+| [play-books-pricing](play-books-pricing/) | Compute USD list prices for Google Play Books (48% GP / 52% net split) | Node.js |
 | [quick-chart](quick-chart/) | Generate charts and QR codes via QuickChart.io API | Python |
+| [render-cover-image](render-cover-image/) | Render deterministic 1200x630 blog cover images locally with Playwright | Node.js |
 | [roll-dice](roll-dice/) | Roll dice of configurable size and quantity | Python |
 | [technical-book-writer](technical-book-writer/) | Writing style guide for Thai-language technical books | Markdown |
 | [uikits](uikits/) | Browse and scaffold Flutter UI component templates | Node.js |
@@ -31,6 +35,8 @@ skills/
 ├── LICENSE                     # MIT License
 ├── arxiv-search/
 │   └── scripts/search_arxiv.py
+├── bisac-categorizer/
+│   └── references/verified-codes.md
 ├── blockframe-video/
 │   ├── references/             # Design system, pipeline, media & scene contract docs
 │   └── scripts/                # fetch-fonts.mjs, loop-bgm.mjs
@@ -38,6 +44,7 @@ skills/
 │   └── scripts/fetch_llm_index.py
 ├── book-mockup/
 │   └── scripts/generate_mockup.py
+├── book-promo-writer/
 ├── book-sales-api/
 │   └── references/api-spec.json
 ├── calculator/
@@ -55,9 +62,13 @@ skills/
 │   ├── references/mermaid-config.json
 │   └── scripts/                # extract, render, analyze, verify figures
 ├── mintlify/
+├── play-books-pricing/
+│   └── scripts/price.js
 ├── quick-chart/
 │   ├── scripts/chart_gen.py
 │   └── scripts/qr_gen.py
+├── render-cover-image/
+│   └── render-cover.mjs
 ├── roll-dice/
 │   └── scripts/roll_dice.py
 ├── technical-book-writer/
@@ -69,7 +80,8 @@ skills/
 ## Skill Categories
 
 - **Search & Retrieval** — arxiv-search, blog-search, book-sales-api, find-skills
-- **Content Creation** — create-blog-post, create-slide, book-mockup, technical-book-writer, mermaid-figures, blockframe-video
+- **Content Creation** — create-blog-post, create-slide, book-mockup, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image
+- **Book Publishing (Google Play Books)** — book-promo-writer, bisac-categorizer, play-books-pricing
 - **Reference Documentation** — claude-code-docs, mintlify, technical-book-writer
 - **Utilities** — calculator, roll-dice, quick-chart
 - **Scaffolding & Templates** — uikits
@@ -135,7 +147,8 @@ Skills installed via the Skills CLI are automatically listed on [skills.sh](http
 ## Requirements
 
 - **Python** — Used by most scripts. Standard library only for most skills.
-- **Node.js** — Required by create-slide, uikits, blockframe-video, and mermaid-figures.
+- **Node.js** — Required by create-slide, uikits, blockframe-video, mermaid-figures, play-books-pricing, and render-cover-image.
+- **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`).
 - **HyperFrames CLI** — blockframe-video renders through `npx hyperframes`.
 - **mermaid-cli** — mermaid-figures requires a global install of `@mermaid-js/mermaid-cli`.
 - Some skills require API keys:
