@@ -11,6 +11,8 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [blockframe-video](blockframe-video/) | Produce vertical BlockFrame knowledge shorts with HyperFrames (brief → storyboard → render) | Node.js |
 | [blog-search](blog-search/) | Search and retrieve blog posts from blog.redlinesoft.net | Python |
 | [book-mockup](book-mockup/) | Generate 3D book mockup images from a flat cover via Google Gemini | Python |
+| [book-mockup-generator](book-mockup-generator/) | Craft prompts for photorealistic 1:1 paperback mockups on a wooden table without cropping or resizing the cover | Markdown |
+| [book-promo-image-post](book-promo-image-post/) | Render 1080×1080 Facebook book-promo images (NEW RELEASE / E-book available) with Playwright | Python |
 | [book-promo-writer](book-promo-writer/) | Write Google Play Books descriptions and social-network launch posts | Workflow |
 | [book-sales-api](book-sales-api/) | Query internal Book and Sales REST API | curl |
 | [calculator](calculator/) | Math expression evaluator | Python |
@@ -18,6 +20,7 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [create-blog-post](create-blog-post/) | Automate Astro blog post creation with frontmatter | Workflow |
 | [create-slide](create-slide/) | Generate reveal.js presentations with Chart.js | Node.js |
 | [find-skills](find-skills/) | Discover and install skills from the open skills ecosystem | Workflow |
+| [image-post](image-post/) | Generate Facebook post/share images with centered main text and footer via Playwright | Python |
 | [little-girl-today](little-girl-today/) | Fetch daily staff schedules from mosl9.com | Workflow |
 | [mermaid-figures](mermaid-figures/) | Render Mermaid diagram sources to PNG figures embedded in book chapters | Node.js |
 | [mintlify](mintlify/) | Best practices for building Mintlify documentation sites | Markdown |
@@ -44,6 +47,10 @@ skills/
 │   └── scripts/fetch_llm_index.py
 ├── book-mockup/
 │   └── scripts/generate_mockup.py
+├── book-mockup-generator/
+├── book-promo-image-post/
+│   ├── scripts/render_promo.py
+│   └── templates/promo.html
 ├── book-promo-writer/
 ├── book-sales-api/
 │   └── references/api-spec.json
@@ -57,6 +64,9 @@ skills/
 │   ├── references/template.html
 │   └── assets/sample_presentation.json
 ├── find-skills/
+├── image-post/
+│   ├── scripts/render_post.py
+│   └── templates/post.html
 ├── little-girl-today/
 ├── mermaid-figures/
 │   ├── references/mermaid-config.json
@@ -80,8 +90,8 @@ skills/
 ## Skill Categories
 
 - **Search & Retrieval** — arxiv-search, blog-search, book-sales-api, find-skills
-- **Content Creation** — create-blog-post, create-slide, book-mockup, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image
-- **Book Publishing (Google Play Books)** — book-promo-writer, bisac-categorizer, play-books-pricing
+- **Content Creation** — create-blog-post, create-slide, book-mockup, book-mockup-generator, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image, image-post
+- **Book Publishing (Google Play Books)** — book-promo-writer, book-promo-image-post, bisac-categorizer, play-books-pricing
 - **Reference Documentation** — claude-code-docs, mintlify, technical-book-writer
 - **Utilities** — calculator, roll-dice, quick-chart
 - **Scaffolding & Templates** — uikits
@@ -148,7 +158,7 @@ Skills installed via the Skills CLI are automatically listed on [skills.sh](http
 
 - **Python** — Used by most scripts. Standard library only for most skills.
 - **Node.js** — Required by create-slide, uikits, blockframe-video, mermaid-figures, play-books-pricing, and render-cover-image.
-- **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`).
+- **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`); book-promo-image-post and image-post render HTML templates via Python Playwright (`pip install playwright && playwright install chromium`).
 - **HyperFrames CLI** — blockframe-video renders through `npx hyperframes`.
 - **mermaid-cli** — mermaid-figures requires a global install of `@mermaid-js/mermaid-cli`.
 - Some skills require API keys:

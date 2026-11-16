@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    /* Design system — primary swatch: Google Blue */
+    --primary: #1A73E8;
+    --primary-dark: #1557B0;
+    --on-primary: #FFFFFF;
+    --on-primary-muted: rgba(255, 255, 255, 0.85);
+    --font: "Google Sans", "Product Sans", "Noto Sans Thai", "Noto Sans", sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: var(--font);
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--on-primary);
+    position: relative;
+  }
+
+  /* Main content: centered horizontally and vertically */
+  .main {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12% 10% 18%;
+    font-size: clamp(28px, 5.2vw, 64px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Footer: centered at the bottom */
+  .footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6%;
+    text-align: center;
+    padding: 0 8%;
+    font-size: clamp(18px, 2.6vw, 32px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--on-primary-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .footer::before {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--on-primary-muted);
+    margin: 0 auto 4%;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+  <div class="main" id="main"></div>
+  <div class="footer" id="footer"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("main").textContent = params.get("main") || "";
+    document.getElementById("footer").textContent =
+      params.get("footer") || "เพจ Dart แบบ Dart Dart";
+  </script>
+</body>
+</html>

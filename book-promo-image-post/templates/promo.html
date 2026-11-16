@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Book promo post</title>
+<style>
+  :root {
+    /* Design system — Google Sans typeface + runtime-chosen background */
+    --font: "Google Sans", "Product Sans", "Google Sans Text", "Noto Sans",
+            "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --bg: #202124;            /* replaced at runtime (random, contrast-checked) */
+    --on-bg: #FFFFFF;
+    --on-bg-muted: rgba(255, 255, 255, 0.86);
+    --sheen: rgba(255, 255, 255, 0.10);
+    /* Drop shadow offset: x negative (left) + y positive (down) => bottom-left */
+    --cover-shadow: -18px 26px 34px rgba(0, 0, 0, 0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+
+  body {
+    position: relative;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--on-bg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle sheen so the flat color reads with some depth */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 90% at 50% 34%, var(--sheen), transparent 62%);
+    pointer-events: none;
+  }
+
+  /* Cover: centered horizontally and vertically on the canvas */
+  .stage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3% 6%;
+  }
+
+  .cover {
+    display: block;
+    max-width: 88%;
+    max-height: 70%;
+    width: auto;
+    height: auto;
+    border-radius: 4px;
+    background: #FFFFFF; /* flattens transparent PNG covers */
+    filter: drop-shadow(var(--cover-shadow));
+  }
+
+  /* Text 1 pinned to the top edge, text 2 to the bottom edge, both centered */
+  .footers {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .footer-1 {
+    position: absolute;
+    top: 7%;
+    left: 0;
+    right: 0;
+    padding: 0 8%;
+    font-size: clamp(36px, 4.6vw, 72px);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-indent: 0.16em;   /* compensates trailing letter-spacing for centering */
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .footer-2 {
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    right: 0;
+    padding: 0 8%;
+    font-size: clamp(20px, 2.9vw, 36px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-indent: 0.02em;
+    color: var(--on-bg-muted);
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <img class="cover" id="cover" alt="Book cover" />
+  </div>
+
+  <div class="footers">
+    <div class="footer-1" id="footer1">NEW RELEASE</div>
+    <div class="footer-2" id="footer2">E-book available</div>
+  </div>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      document.getElementById("footer1").textContent =
+        params.get("footer1") || "NEW RELEASE";
+      document.getElementById("footer2").textContent =
+        params.get("footer2") || "E-book available";
+
+      function toLinear(c) {
+        c /= 255;
+        return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      }
+
+      function relLum(rgb) {
+        return 0.2126 * toLinear(rgb[0]) +
+               0.7152 * toLinear(rgb[1]) +
+               0.0722 * toLinear(rgb[2]);
+      }
+
+      function hslToRgb(h, s, l) {
+        var f = function (n) {
+          var k = (n + h / 30) % 12;
+          var a = s * Math.min(l, 1 - l);
+          return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))));
+        };
+        return [f(0), f(8), f(4)];
+      }
+
+      function rgbToHsl(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h = 0, s = 0, l = (max + min) / 2;
+        if (max !== min) {
+          var d = max - min;
+          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+          if (max === r) h = ((g - b) / d + (g < b ? 6 : 0));
+          else if (max === g) h = (b - r) / d + 2;
+          else h = (r - g) / d + 4;
+          h *= 60;
+        }
+        return { h: h, s: s, l: l };
+      }
+
+      function parseHex(value) {
+        if (!value) return null;
+        var v = value.trim().replace(/^#/, "");
+        if (v.length === 3) {
+          v = v.split("").map(function (c) { return c + c; }).join("");
+        }
+        if (!/^[0-9a-fA-F]{6}$/.test(v)) return null;
+        return [
+          parseInt(v.slice(0, 2), 16),
+          parseInt(v.slice(2, 4), 16),
+          parseInt(v.slice(4, 6), 16)
+        ];
+      }
+
+      /* Average color of the cover (flattened onto white). May throw if the
+         canvas is tainted — callers must catch. */
+      function averageCoverColor(image) {
+        var c = document.createElement("canvas");
+        c.width = 48;
+        c.height = 48;
+        var ctx = c.getContext("2d", { willReadFrequently: true });
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, 48, 48);
+        ctx.drawImage(image, 0, 0, 48, 48);
+        var data = ctx.getImageData(0, 0, 48, 48).data;
+        var r = 0, g = 0, b = 0;
+        for (var i = 0; i < data.length; i += 4) {
+          r += data[i]; g += data[i + 1]; b += data[i + 2];
+        }
+        var n = data.length / 4;
+        return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+      }
+
+      function applyBackground(rgb) {
+        var root = document.documentElement.style;
+        var isLightBg = relLum(rgb) > 0.5;
+        root.setProperty("--bg", "rgb(" + rgb.join(", ") + ")");
+        if (isLightBg) {
+          root.setProperty("--on-bg", "#202124");
+          root.setProperty("--on-bg-muted", "rgba(32, 33, 36, 0.82)");
+          root.setProperty("--sheen", "rgba(0, 0, 0, 0.05)");
+        } else {
+          root.setProperty("--on-bg", "#FFFFFF");
+          root.setProperty("--on-bg-muted", "rgba(255, 255, 255, 0.86)");
+          root.setProperty("--sheen", "rgba(255, 255, 255, 0.10)");
+        }
+      }
+
+      function pickBackground() {
+        var forced = parseHex(params.get("bg"));
+        if (forced) return forced;
+
+        try {
+          var avg = averageCoverColor(img);
+          var coverLum = relLum(avg);
+          var hsl = rgbToHsl(avg[0], avg[1], avg[2]);
+          /* Contrast rule so the cover always reads clearly:
+             light/neutral covers get a deep background (white text),
+             dark covers get a light background (dark text).
+             Colorful covers shift the hue toward complementarity. */
+          var lightCover = coverLum >= 0.30;
+          var hue = hsl.s < 0.12
+            ? Math.random() * 360
+            : (hsl.h + 160 + Math.random() * 40) % 360;
+          var sat = lightCover ? 0.55 + Math.random() * 0.25
+                               : 0.45 + Math.random() * 0.25;
+          var lig = lightCover ? 0.14 + Math.random() * 0.10
+                               : 0.86 + Math.random() * 0.08;
+          return hslToRgb(hue, sat, lig);
+        } catch (e) {
+          /* Canvas tainted (file:// restrictions) — safe dark fallback */
+          return [32, 33, 36];
+        }
+      }
+
+      var img = document.getElementById("cover");
+
+      function ready() {
+        var bg = pickBackground();
+        applyBackground(bg);
+        window.__bg = "rgb(" + bg.join(", ") + ")";
+        window.__ready = true;
+      }
+
+      img.addEventListener("load", ready);
+      img.addEventListener("error", function () {
+        window.__error = "failed to load cover image: " + img.src;
+        window.__ready = true;
+      });
+
+      var src = params.get("cover");
+      if (!src) {
+        window.__error = "missing required 'cover' parameter";
+        window.__ready = true;
+      } else {
+        img.src = src;
+      }
+    })();
+  </script>
+</body>
+</html>
