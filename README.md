@@ -19,8 +19,8 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [claude-code-docs](claude-code-docs/) | Comprehensive Claude Code documentation and reference | Markdown |
 | [create-blog-post](create-blog-post/) | Automate Astro blog post creation with frontmatter | Workflow |
 | [create-slide](create-slide/) | Generate reveal.js presentations with Chart.js | Node.js |
+| [facebook-post-image](facebook-post-image/) | Generate Facebook post/share images with centered main text and footer via Playwright | Python |
 | [find-skills](find-skills/) | Discover and install skills from the open skills ecosystem | Workflow |
-| [image-post](image-post/) | Generate Facebook post/share images with centered main text and footer via Playwright | Python |
 | [little-girl-today](little-girl-today/) | Fetch daily staff schedules from mosl9.com | Workflow |
 | [mermaid-figures](mermaid-figures/) | Render Mermaid diagram sources to PNG figures embedded in book chapters | Node.js |
 | [mintlify](mintlify/) | Best practices for building Mintlify documentation sites | Markdown |
@@ -50,7 +50,9 @@ skills/
 ├── book-mockup-generator/
 ├── book-promo-image-post/
 │   ├── scripts/render_promo.py
-│   └── templates/promo.html
+│   ├── templates/promo.html
+│   ├── cover.png
+│   └── sample.png
 ├── book-promo-writer/
 ├── book-sales-api/
 │   └── references/api-spec.json
@@ -63,10 +65,11 @@ skills/
 │   ├── scripts/generate_presentation.cjs
 │   ├── references/template.html
 │   └── assets/sample_presentation.json
-├── find-skills/
-├── image-post/
+├── facebook-post-image/
 │   ├── scripts/render_post.py
-│   └── templates/post.html
+│   ├── templates/post.html
+│   └── sample.png
+├── find-skills/
 ├── little-girl-today/
 ├── mermaid-figures/
 │   ├── references/mermaid-config.json
@@ -83,6 +86,7 @@ skills/
 │   └── scripts/roll_dice.py
 ├── technical-book-writer/
 └── uikits/
+    ├── README.md
     ├── scripts/list_templates.cjs
     └── scripts/get_template.cjs
 ```
@@ -90,7 +94,7 @@ skills/
 ## Skill Categories
 
 - **Search & Retrieval** — arxiv-search, blog-search, book-sales-api, find-skills
-- **Content Creation** — create-blog-post, create-slide, book-mockup, book-mockup-generator, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image, image-post
+- **Content Creation** — create-blog-post, create-slide, book-mockup, book-mockup-generator, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image, facebook-post-image
 - **Book Publishing (Google Play Books)** — book-promo-writer, book-promo-image-post, bisac-categorizer, play-books-pricing
 - **Reference Documentation** — claude-code-docs, mintlify, technical-book-writer
 - **Utilities** — calculator, roll-dice, quick-chart
@@ -158,7 +162,7 @@ Skills installed via the Skills CLI are automatically listed on [skills.sh](http
 
 - **Python** — Used by most scripts. Standard library only for most skills.
 - **Node.js** — Required by create-slide, uikits, blockframe-video, mermaid-figures, play-books-pricing, and render-cover-image.
-- **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`); book-promo-image-post and image-post render HTML templates via Python Playwright (`pip install playwright && playwright install chromium`).
+- **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`); book-promo-image-post and facebook-post-image render HTML templates via Python Playwright (`pip install playwright && playwright install chromium`).
 - **HyperFrames CLI** — blockframe-video renders through `npx hyperframes`.
 - **mermaid-cli** — mermaid-figures requires a global install of `@mermaid-js/mermaid-cli`.
 - Some skills require API keys:
