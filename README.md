@@ -28,6 +28,7 @@ A collection of AI agent skills for the [Skills CLI](https://skills.sh/) ecosyst
 | [quick-chart](quick-chart/) | Generate charts and QR codes via QuickChart.io API | Python |
 | [render-cover-image](render-cover-image/) | Render deterministic 1200x630 blog cover images locally with Playwright | Node.js |
 | [roll-dice](roll-dice/) | Roll dice of configurable size and quantity | Python |
+| [search-blog-post](search-blog-post/) | Search and retrieve blog posts from blog.redlinesoft.net with ranked results and raw Markdown sources | Node.js |
 | [technical-book-writer](technical-book-writer/) | Writing style guide for Thai-language technical books | Markdown |
 | [uikits](uikits/) | Browse and scaffold Flutter UI component templates | Node.js |
 
@@ -84,6 +85,8 @@ skills/
 │   └── render-cover.mjs
 ├── roll-dice/
 │   └── scripts/roll_dice.py
+├── search-blog-post/
+│   └── scripts/rank.mjs
 ├── technical-book-writer/
 └── uikits/
     ├── README.md
@@ -93,7 +96,7 @@ skills/
 
 ## Skill Categories
 
-- **Search & Retrieval** — arxiv-search, blog-search, book-sales-api, find-skills
+- **Search & Retrieval** — arxiv-search, blog-search, search-blog-post, book-sales-api, find-skills
 - **Content Creation** — create-blog-post, create-slide, book-mockup, book-mockup-generator, technical-book-writer, mermaid-figures, blockframe-video, render-cover-image, facebook-post-image
 - **Book Publishing (Google Play Books)** — book-promo-writer, book-promo-image-post, bisac-categorizer, play-books-pricing
 - **Reference Documentation** — claude-code-docs, mintlify, technical-book-writer
@@ -161,7 +164,7 @@ Skills installed via the Skills CLI are automatically listed on [skills.sh](http
 ## Requirements
 
 - **Python** — Used by most scripts. Standard library only for most skills.
-- **Node.js** — Required by create-slide, uikits, blockframe-video, mermaid-figures, play-books-pricing, and render-cover-image.
+- **Node.js** — Required by create-slide, uikits, blockframe-video, mermaid-figures, play-books-pricing, render-cover-image, and search-blog-post.
 - **Playwright** — render-cover-image renders covers with headless Chromium (one-time `npx playwright install chromium`); book-promo-image-post and facebook-post-image render HTML templates via Python Playwright (`pip install playwright && playwright install chromium`).
 - **HyperFrames CLI** — blockframe-video renders through `npx hyperframes`.
 - **mermaid-cli** — mermaid-figures requires a global install of `@mermaid-js/mermaid-cli`.
